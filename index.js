@@ -1,97 +1,129 @@
 lostConnect = 1;
-lostConnectNew = 1;
 address_list = "wss://socketlanguage.space:8443";
-address_listNew = "wss://socketlanguage.space:8443";
-divRedFadeOutRGB = [249, 49, 49];
-divGreenFadeOutRGB = [4, 178, 13];
-divFadeOutGo = [0, 0, 0];
-divErrorFadeOutFlag = f;
 backgroundColorGreen = '#D3F899';
 backgroundColorRed = '#FBC3C3';
 backgroundColorPurp = '#ECC8FF';
 backgroundColorSLS = '#9B9D19';
+backgroundColorGenerateKey = '#EA5CA9';
+backgroundColorSupport = '#2CB22F';
 backgroundColorOrange = '#FDB48D';
 backgroundColorGray = '#E0E0E0';
 backgroundColorYellow = '#F8F7B3';
 backgroundColorSky = '#B0FDF3';
 backgroundColorSiren = '#C1C8FE';
-flags = "0";	//	Флаги подписок на броадкасты. Бит 1 = Trade
-tradeOFF = 'Press to start';
-tradeON = 'Press to stop';
-coin = ["ADA","ADX","AE","AGI","AION","ALGO","AMB","ANKR","APPC","ARDR","ARK","ARPA","AST","ATOM","BAND","BAT","BCD","BCH","BCPT","BEAM","BLZ","BNB","BNT","BQX","BRD","BTG","BTS","CDT","CELR","CHR","CHZ","CMT","CND","COMP","COS","COTI","CTSI","CTXC","CVC","DAI","DASH","DATA","DCR","DGB","DLT","DNT","DOCK","DOGE","DREP","DUSK","ELF","ENG","ENJ","EOS","ERD","ETC","ETH","EVX","FET","FTM","FTT","FUN","GAS","GNT","GO","GRS","GTO","GVT","GXS","HBAR","HC","HIVE","HOT","ICX","INS","IOST","IOTA","IOTX","IRIS","KAVA","KMD","KNC","LEND","LINK","LOOM","LRC","LSK","LTC","LTO","MANA","MATIC","MBL","MCO","MDA","MDT","MITH","MKR","MTH","MTL","NANO","NAS","NAV","NEBL","NEO","NKN","NULS","NXS","QAX","OGN","OMG","ONE","ONG","ONT","OST","PERL","PHB","PIVX","PNT","POA","POE","POLY","POWR","PPT","QKC","QLC","QSP","QTUM","RCN","RDN","REN","REP","REQ","RLC","RUNE","RVN","SC","SKY","SNGLS","SNM","SNT","SNX","SOL","STEEM","STMX","STORJ","STPT","STRAT","STX","SXP","SYS","TCT","TFUEL","THETA","TNB","TNT","TOMO","TROY","TRX","VET","VIA","VIB","VIBE","VITE","WABI","WAN","WAVES","WPR","WRX","WTC","XEM","XLM","XMR","XRP","XTZ","XVG","XZC","YOYO","ZEC","ZEN","ZIL","ZRX"]
-market = ["BTC"];
-
+backgroundColorInsertCoin = '#F8841C';
+backgroundColorSendCoin = '#209AD3';
+backgroundColorChooseId = '#A6AFB3';
+msg = "";
 var t = true;
 var f = false;
+const copyToClipboard = (text) => navigator.clipboard.writeText(text);
+connectionOnlineInnerHTMLimg = '<img src="ConnectionG.gif" title="Connection online">';
+connectionOfflineInnerHTMLimg = '<img src="ConnectionR.gif" title="Connection offline">';
 
-fadeSymbolType = '*';
-msg = "";
+connectionOnlineInnerHTMLtext = 'Online';
+connectionOfflineInnerHTMLtext = 'Offline';
+
+
+//<img src="Logo-Game-Battle-Platforms-.gif" alt="Battle Platforms" onclick="window.open('https://playcanv.as/p/Vu3ddKWc/','_blank')">
 
 window.onload = function(){
-	connection();
-	connectionNew();
-	setInterval(connection, 5000);
-	setInterval(connectionNew, 5000);
-    setInterval(refresh, 50000);
 
 	mainMenu = document.getElementById("mainMenu");
-	//formPayment = document.getElementById("formPayment");
-	formLogin = document.getElementById("formLogin");
 	formHome = document.getElementById("formHome");
 	hiddenCaptcha = document.getElementById("hiddenCaptcha");
 	divError = document.getElementById("divError");
 	
-	socketStatusText = document.getElementById("socketStatusText");
-	socketStatusImg = document.getElementById("socketStatusImg");
-	socketStatusImgNew = document.getElementById("socketStatusImgNew");
 	
+	msg = "<table width=100% cellspacing='0' border='0'>";
 	
-	//selectMenuBtns(0);
-	selectPage(t, t, f, t, t, t, t, t);
+	msg += "<tr><td width=10% colspan=2><input type='submit' id='homeBtn' value='Home' disabled = true></td>";
+	msg += "<td width=10% colspan=1><input type='submit' id='scriptBtn' value='Script'></td>";
+	msg += "<td width=10% colspan=1><input type='submit' id='gameBtn' value='Game'></td>";
+	msg += "<td width=10% colspan=1><input type='submit' id='roomBtn' value='Room'></td>";
+	msg += "<td width=10% colspan=1><input type='submit' id='chatBtn' value='Chat'></td>";
+	msg += "<td width=10% colspan=1><input type='submit' id='tradeBtn' value='Trade'></td>";
+	msg += "<td width=40% colspan=2></td></tr>";
+	
+	msg += "<tr><td width=2% title='Socket Language status'><div id='socketStatusImg'></div></td>";
+	msg += "<td width=8% title='Network status'><div id='socketStatusText'></div></td>";
+	msg += "<td width=10% title='Users + nodes online'><div id='usersOnline'></div></td>";
+	msg += "<td width=10% title='Coins balance for current access key'><div id='balanceCoin'></div></td>";
+	msg += "<td width=70% colspan=3 title='ReservTD0'><div id='ReservTD0'></div></td></tr>";
 
-	//formPayment.innerHTML = msg;
-	msg = "<input type='submit' id='homeBtn' value='Home' disabled = true>";
-	msg += "<input type='submit' id='scriptEditorBtn' value='Script'>";
-	msg += "<input type='submit' id='gamesBtn' value='Game'>";
-	msg += "<input type='submit' id='devicesBtn' value='Device'>";
-	msg += "<input type='submit' id='messagesBtn' value='Message'>";
-	msg += "<input type='submit' id='tradesBtn' value='Trade'>";
-
+	msg += "</table>";
 	mainMenu.innerHTML = msg;
+
+	msg = "<table width=50% cellspacing='0' border='0'>";
 	
-	//msg = "<h4>Authorization | Registration</h4>";
-	//msg += "<p>E-mail:";
-	msg = "<input type='text' id='loginInput' maxlength='64' placeholder='enter e-mail'>";
-	//msg += "<p>Password:";
-	msg += "<br><br><input type='password' id='passInput' maxlength='32' placeholder='enter or choose new passwd'><br>";
-	msg += "<div id='mailCodeHidden' hidden=t><h5>Check e-mail & enter code:</h5>";
-	msg += "<input type='text' id='mailCodeInput' maxlength='16' placeholder='enter code from e-mail'></div>";
-	msg += "<div id='checkBoxTermHidden' hidden=t><h6><input type='checkbox' id='checkBoxTerm' background-color:'" + backgroundColorRed + "' title='Checkbox for agree license' onchange=''>Terms & Conditions and Data Privacy Policy read and accepted</h6></div>";
-	msg += "<br><input type='submit' id='loginBtn' value='Login' disabled=true>";
-	msg += "<input type='submit' id='registrationBtn' value='Registration / Reset password' disabled=true>";
-	msg += "<input type='submit' id='socketLanguageAboutBtn' value='Roadmap'></td>";
-	formLogin.innerHTML = msg;
+	msg += "<tr><td width=25%><input type='submit' id='socketLanguageRoadmapBtn' value='Roadmap'></td>";
+	msg += "<td width=25%><input type='submit' id='supportBtn' value='Support'></td>";
+	msg += "<td><input type='submit' id='getNewAccessKeyBtn' value='Generate access keys'></td></tr></table><br>";
+
+	msg += "<table width=50% cellspacing='0' border='0'><tr><td width=80% bgcolor='" + backgroundColorRed;
+	msg += "'><div id='getNewAccessKeyDiv'>The access key is not recoverable.<br>Keep it safe and secret, please.</div></td>";
+	msg += "<td><input type='submit' id='getNewAccessKeyCopyBtn' value='Copy'></td></tr></table><br>";
 	
-	//msg = "<h4>Home</h4>";
-	msg = "<input type='submit' id='logoutBtn' value='Logout'>";
-	msg += "<h5><table><tr><td><img src='Coin.gif' title='Your Balance'></td><td><div id='yourBalance' title='Your Balance'></div></td><td><img src='Letter.gif' title='Your e-mail'></td><td><div id='yourEmail' title='Your e-mail'></div></td><td><img src='id.gif' title='Your personal ID'></td><td><div id='yourID' title='Your personal ID'></div></td></tr><tr></tr><table></h5>";
-	msg += "<input type='text' id='summInput' maxlength='19' title='Enter summ in Coins (100 Coins = $1)' placeholder='number of Coins'>";
-	msg += "<input type='submit' id='depositBalanceBtn' title='Deposit' value='Buy Coins'>";
-	msg += "<input type='submit' id='depositQiwiBtn' title='Deposit' value='Qiwi'>";
-	msg += "<br><br><input type='text' id='nicknameInput' maxlength='19' placeholder='choose your nickname'>";
-	msg += "<input type='submit' id='setNicknameBtn' value='Set nickname'>";
+	msg += "<table width=50% cellspacing='0' border='0'><tr><td width=80% bgcolor='" + backgroundColorSky;
+	msg += "'><div id='getNewPublicKeyDiv'>Public key for this access key</div></td>";
+	msg += "<td><input type='submit' id='getNewPublicKeyCopyBtn' value='Copy'></td></tr></table><br>";
+	
+	msg += "<table width=50% cellspacing='0' border='0'><tr>";
+	msg += "<td width=5%><img src='Coin.gif' title='Insert Coin'></td>";
+	msg += "<td width=20%><input type='submit' id='insertCoinBtn' value='Insert Coin'></td>";
+	msg += "<td width=75%></td></tr><tr>";
+	msg += "<td width=5%><img src='Letter.gif' title='Send Coin'></td>";
+	msg += "<td width=20%><input type='submit' id='sendCoinBtn' value='Send Coin'></td>";
+	msg += "<td width=75%></td></tr><tr>";
+	msg += "<td width=5%><img src='id.gif' title='Choose id'></td>";
+	msg += "<td width=20%><input type='submit' id='chooseIdBtn' value='Choose id'></td>";
+	msg += "<td width=75%></td></tr><tr>";
+	msg += "</tr>";
+
+
+	
+	
+	//msg += "<h5><table><tr>";
+	//msg += "<td><img src='Coin.gif' title='Balance'></td>";
+	//msg += "<td><img src='Letter.gif' title='Name'></td>";
+	//msg += "<td><img src='id.gif' title='Your personal ID'></td>";
+	//msg += "<tr></tr><table></h5>";
+	//msg += "<input type='text' id='summInput' maxlength='19' title='Enter summ in Coin (100 Coin = $1)' ";
+	//msg += "placeholder='number of Coin'>";
+	//msg += "<br><br><input type='text' id='nicknameInput' maxlength='19' placeholder='choose your nickname'>";
+	//msg += "<input type='submit' id='setNicknameBtn' value='Set nickname'>";
+	
 	formHome.innerHTML = msg;
 	
 	
 	
-	//msg = "<h4>Script</h4>";
+	getNewAccessKeyDiv = document.getElementById("getNewAccessKeyDiv");
+	getNewPublicKeyDiv = document.getElementById("getNewPublicKeyDiv");
+	
+	usersOnline = document.getElementById("usersOnline");
+	usersOnline.innerHTML = 'Need net';
+	
+	balanceCoin = document.getElementById("balanceCoin");
+	balanceCoin.innerHTML = 'Need key';
+	
+	socketStatusText = document.getElementById("socketStatusText");
+	socketStatusText.innerHTML = connectionOfflineInnerHTMLtext;
+	
+	socketStatusImg = document.getElementById("socketStatusImg");
+	socketStatusImg.innerHTML = connectionOfflineInnerHTMLimg;
+	
+	
+	selectPage(t, t, f, t, t, t, t, t);
+	connection();
+	setInterval(connection, 5000);
+    setInterval(refresh, 50000);
 	
 	msg = "<input type='submit' id='scriptEditBtn' value='Edit'>";
-	msg += "&nbsp<input type='submit' id='scriptCopyBtn' value='Copy'>";
-	msg += "&nbsp<input type='submit' id='scriptSaveBtn' value='Save'>";
-	msg += "&nbsp<input type='submit' id='scriptRunBtn' value='Run'>";
-	msg += "&nbsp<input type='submit' id='scriptSetupBtn' value='Setup'>";
-	msg += "&nbsp<input type='submit' id='scriptClearBtn' value='Clear'>";
+	msg += "&nbsp<input type='submit' id='scriptCopyBtn' value='Copy' disabled>";
+	msg += "&nbsp<input type='submit' id='scriptSaveBtn' value='Save' disabled>";
+	msg += "&nbsp<input type='submit' id='scriptRunBtn' value='Run' disabled>";
+	msg += "&nbsp<input type='submit' id='scriptSetupBtn' value='Setup' disabled>";
+	msg += "&nbsp<input type='submit' id='scriptFindBtn' value='Find' disabled>";
 	msg += "&nbsp<input type='submit' id='scriptCheckBtn' value='Check'>";
 	msg += `<br><textarea spellcheck='false' id='scriptTextArea' autocapitalize='none' rows='20' cols='42'>
 	a 50
@@ -100,209 +132,237 @@ window.onload = function(){
 	+ c b
 	\n\n\n
 	</textarea>`;
-	msg += "<br><input type='submit' id='scriptNewBtn' value='New'>";
-	msg += "&nbsp<input type='submit' id='scriptLoadBtn' value='Load'>";
-	msg += "&nbsp<input type='submit' id='scriptChatBtn' value='Chat'>";
-	msg += "&nbsp<input type='submit' id='scriptSellBtn' value='Sell'>";
-	msg += "&nbsp<input type='submit' id='scriptBuyBtn' value='Buy'>";
-	msg += "&nbsp<input type='submit' id='scriptScanBtn' value='Scan'>";
-	msg += "&nbsp<input type='submit' id='scriptHideBtn' value='Hide'>";
-	msg += "&nbsp<input type='submit' id='scriptHelpBtn' value='?'>";
+	msg += "<br><input type='submit' id='scriptClearBtn' value='Clear' disabled>";
+	msg += "&nbsp<input type='submit' id='scriptLoadBtn' value='Load' disabled>";
+	msg += "&nbsp<input type='submit' id='scriptBlankBtn' value='Blank' disabled>";
+	msg += "&nbsp<input type='submit' id='scriptSellBtn' value='Sell' disabled>";
+	msg += "&nbsp<input type='submit' id='scriptBuyBtn' value='Buy' disabled>";
+	msg += "&nbsp<input type='submit' id='scriptHideBtn' value='Hide' disabled>";
+	msg += "&nbsp<input type='submit' id='scriptHelpBtn' value='Help' disabled><br>";
+	msg += "<textarea id='scriptTerminalTextArea' readonly rows='5' cols='42'></textarea>";
+	formScript.innerHTML = msg;
 	
 	
-	msg += "<table id='tableTrade' cellspacing='0' border='1'>";
-	msg += "<tr><td colspan='2' bgcolor='" + backgroundColorGreen + "'> Script ID </td>";
-	msg += "<td colspan='2' bgcolor='" + backgroundColorYellow + "'><div id='setupScriptID' >15434</div></tr>";
-	msg += "<tr><td colspan='2' bgcolor='" + backgroundColorGreen + "'> Name </td>";
-	msg += "<td bgcolor='" + backgroundColorYellow + "'><div id='setupScriptName' ><input type='text' id='scriptNameInput' maxlength='255' placeholder='choose script name'></div></td><td bgcolor='" + backgroundColorYellow + "'><input type='submit' id='ScriptHelpBtn' value='Save'></td></tr>";
-	msg += "<tr><td colspan='2' bgcolor='" + backgroundColorGreen + "'> Writer </td>";
-	msg += "<td bgcolor='" + backgroundColorYellow + "'><div id='setupScriptWriter' ><input type='text' id='scriptWriterInput' maxlength='255' placeholder='choose Writer name'></div></td><td bgcolor='" + backgroundColorYellow + "'><input type='submit' id='ScriptHelpBtn' value='Save'></td></tr>";
+	
+	
+	msg = "<table id='tableTrade' cellspacing='0' border='1'>";
+	
+	msg += "<tr><td colspan='1' bgcolor='" + backgroundColorSiren;
+	msg += "'>Access key</td>";
+	msg += "<td colspan='1' bgcolor='" + backgroundColorSiren;
+	msg += "'><div id='accessKeyDiv'>";
+	msg += "<input type='text' id='accessKey' maxlength='255' placeholder='paste access key here'></div></td>";
+	msg += "<td bgcolor='" + backgroundColorSiren;
+	msg += "'><input type='submit' id='accessKeyFillBtn' value='Enter'></td></tr>";
+	
+	msg += "<tr><td colspan='1' bgcolor='" + backgroundColorGray;
+	msg += "'>Key info</td>";
+	msg += "<td colspan='2' bgcolor='" + backgroundColorGray;
+	msg += "'><div id='accessKeyInfoDiv'></td></tr>";
+	
+	msg += "<tr><td colspan='3' bgcolor='" + backgroundColorGray;
+	msg += "'>(-_-)</td></tr>";
+	
+	
+	msg += "<tr><td colspan='1' bgcolor='" + backgroundColorSiren;
+	msg += "'>User key</td>";
+	msg += "<td colspan='1' bgcolor='" + backgroundColorSiren;
+	msg += "'><div id='userKeyDiv'>public</div></td>";
+	msg += "<td bgcolor='" + backgroundColorSiren;
+	msg += "'><input type='submit' id='publicKeyCopyBtn' value='Copy'></td></tr>";
+	
+	msg += "<tr><td colspan='1' bgcolor='" + backgroundColorGray;
+	msg += "'>User info</td>";
+	msg += "<td colspan='2' bgcolor='" + backgroundColorGray;
+	msg += "'><div id='userKeyInfoDiv'></td></tr>";
+	
+	msg += "<tr><td colspan='3' bgcolor='" + backgroundColorGray;
+	msg += "'>(*_*)</td></tr>";
+	
+	
+	msg += "<tr><td colspan='1' bgcolor='" + backgroundColorSiren;
+	msg += "'>Script key</td>";
+	msg += "<td colspan='1' bgcolor='" + backgroundColorSiren;
+	msg += "'><div id='scriptKeyDiv'>public</div></td>";
+	msg += "<td bgcolor='" + backgroundColorSiren;
+	msg += "'><input type='submit' id='scriptKeyCopyBtn' value='Copy'></td></tr>";
+	
+	msg += "<tr><td colspan='1' bgcolor='" + backgroundColorGray;
+	msg += "'>Script info</td>";
+	msg += "<td colspan='2' bgcolor='" + backgroundColorGray;
+	msg += "'><div id='scriptKeyInfoDiv'></td></tr>";
+	
+
+	msg += "<tr><td colspan='3' bgcolor='" + backgroundColorGray;
+	msg += "'>(^_^)</td></tr>";
+	
+	msg += "<tr><td colspan='1' bgcolor='" + backgroundColorSiren;
+	msg += "'>List</td>";
+	msg += "<td colspan='2' bgcolor='" + backgroundColorSiren;
+	msg += "'><div id='scriptListDiv'><select id='scriptList' disabled>";
+	msg += "<option value='0'>-S-C-R-I-P-T-S-_-F-O-R-_-T-H-I-S-_-K-E-Y-</option>";
+	msg += "</select></div></td></tr>";
+	
+	msg += "<tr><td colspan='1' bgcolor='" + backgroundColorGray;
+	msg += "'>Coockie key</td>";
+	msg += "<td colspan='1' bgcolor='" + backgroundColorGray;
+	msg += "'><div id='coockieKeyDiv'>access key</div></td>";
+	msg += "<td bgcolor='" + backgroundColorGray;
+	msg += "'><input type='submit' id='coockieKeyViewBtn' value='View'></td></tr>";	//	Hide
+	
+	msg += "<tr><td colspan='3' bgcolor='" + backgroundColorGray;
+	msg += "'>(=_=)</td></tr>";	
+
 	msg += "</table>";
+	formRoom.innerHTML = msg;
+
+
+	msg = "";
+	formTrade.innerHTML = msg;
 	
-	
-	msg += "<br><br><textarea id='scriptTerminalTextArea' readonly rows='5' cols='42'></textarea>";
-	formScriptEditor.innerHTML = msg;
-	
-	
-	
-	//msg = "<h4>Trade</h4>";
-	msg = "<input type='submit' id='tradesFlatBusterBtn' value='" + tradeOFF + "'>";
-	msg += "<table id='tableTrade' cellspacing='0' border='1'>";
-	msg += "<tr>";
-	msg += "<td colspan='2' bgcolor='" + backgroundColorYellow + "'> Pair </td>";
-	msg += "<td colspan='2' bgcolor='" + backgroundColorGreen + "'> Buy </td>";
-	msg += "<td colspan='2' bgcolor='" + backgroundColorRed + "'> Sell </td>";
-	msg += "</tr><tr>";
-	msg += "<td bgcolor='" + backgroundColorYellow + "'> Coin </td>";
-	msg += "<td bgcolor='" + backgroundColorYellow + "'> Market </td>";
-	msg += "<td bgcolor='" + backgroundColorGreen + "'> Time </td>";
-	msg += "<td bgcolor='" + backgroundColorGreen + "'> Price </td>";
-	msg += "<td bgcolor='" + backgroundColorRed + "'> Time </td>";
-	msg += "<td bgcolor='" + backgroundColorRed + "'> Price </td>";
-	msg += "</tr></table>";
-	formTrades.innerHTML = msg;
-	
-	loginMsg = document.getElementById("loginInput");
-	passMsg = document.getElementById("passInput");
-	mailCodeHidden = document.getElementById('mailCodeHidden');
-	mailCodeMsg = document.getElementById('mailCodeInput');
-	checkBoxTerm = document.getElementById('checkBoxTerm');
+	scriptTerminalTextArea = document.getElementById("scriptTerminalTextArea");
 	usersOnline = document.getElementById('usersOnline');
-	yourEmail = document.getElementById('yourEmail');
-	yourID = document.getElementById('yourID');
-	yourBalance = document.getElementById('yourBalance');
-	tableTrade = document.getElementById('tableTrade');
-	
-	
+
 	homeBtn = document.getElementById('homeBtn');
 	homeBtn.addEventListener('click', homeBtnFunc, f);
 	homeBtn.style.background=backgroundColorPurp;
 	
-	scriptEditorBtn = document.getElementById('scriptEditorBtn');
-	scriptEditorBtn.addEventListener('click', scriptEditorBtnFunc, f);
-	scriptEditorBtn.style.background=backgroundColorOrange;
+	scriptBtn = document.getElementById('scriptBtn');
+	scriptBtn.addEventListener('click', scriptBtnFunc, f);
+	scriptBtn.style.background=backgroundColorOrange;
 	
-	devicesBtn = document.getElementById('devicesBtn');
-	devicesBtn.addEventListener('click', devicesBtnFunc, f);
-	devicesBtn.style.background=backgroundColorSiren;
+	roomBtn = document.getElementById('roomBtn');
+	roomBtn.addEventListener('click', roomBtnFunc, f);
+	roomBtn.style.background=backgroundColorSiren;
 	
-	gamesBtn = document.getElementById('gamesBtn');
-	gamesBtn.addEventListener('click', gamesBtnFunc, f);
-	gamesBtn.style.background=backgroundColorGreen;
+	gameBtn = document.getElementById('gameBtn');
+	gameBtn.addEventListener('click', gameBtnFunc, f);
+	gameBtn.style.background=backgroundColorGreen;
 	
-	messagesBtn = document.getElementById('messagesBtn');
-	messagesBtn.addEventListener('click', messagesBtnFunc, f);
-	messagesBtn.style.background=backgroundColorGray;
+	chatBtn = document.getElementById('chatBtn');
+	chatBtn.addEventListener('click', chatBtnFunc, f);
+	chatBtn.style.background=backgroundColorGray;
 	
-	tradesBtn = document.getElementById('tradesBtn');
-	tradesBtn.addEventListener('click', tradesBtnFunc, f);
-	tradesBtn.style.background=backgroundColorYellow;
+	tradeBtn = document.getElementById('tradeBtn');
+	tradeBtn.addEventListener('click', tradeBtnFunc, f);
+	tradeBtn.style.background=backgroundColorYellow;
+
+	getNewAccessKeyBtn = document.getElementById('getNewAccessKeyBtn');
+	getNewAccessKeyBtn.addEventListener('click', getNewAccessKeyBtnFunc, f);
+	getNewAccessKeyBtn.style.fontSize="1.0em";
+	getNewAccessKeyBtn.style.background=backgroundColorGenerateKey;
+	getNewAccessKeyBtn.style.color="#ffffff";
 	
+	getNewAccessKeyCopyBtn = document.getElementById('getNewAccessKeyCopyBtn');
+	getNewAccessKeyCopyBtn.addEventListener('click', getNewAccessKeyCopyBtnFunc, f);
+	getNewAccessKeyCopyBtn.style.fontSize="1.0em";
+	getNewAccessKeyCopyBtn.style.background=backgroundColorGenerateKey;
+	getNewAccessKeyCopyBtn.style.color="#ffffff";
 	
-	
-	
-	loginBtn = document.getElementById('loginBtn');
-	loginBtn.addEventListener('click', loginSend, f);
-	loginBtn.style.background=backgroundColorPurp;
-	
-	registrationBtn = document.getElementById('registrationBtn');
-	registrationBtn.addEventListener('click', registrationSend, f);
-	registrationBtn.style.background=backgroundColorPurp;
-	
-	
-	
-	socketLanguageAboutBtn = document.getElementById('socketLanguageAboutBtn');
-	socketLanguageAboutBtn.addEventListener('click', socketLanguageAboutBtnFunc, f);
-	socketLanguageAboutBtn.style.fontSize="0.8em";
-	socketLanguageAboutBtn.style.background=backgroundColorSLS;
-	socketLanguageAboutBtn.style.color="#ffffff";
-	
+	getNewPublicKeyCopyBtn = document.getElementById('getNewPublicKeyCopyBtn');
+	getNewPublicKeyCopyBtn.addEventListener('click', getNewPublicKeyCopyBtnFunc, f);
+	getNewPublicKeyCopyBtn.style.fontSize="1.0em";
+	getNewPublicKeyCopyBtn.style.background=backgroundColorGenerateKey;
+	getNewPublicKeyCopyBtn.style.color="#ffffff";
 	
 	
-	logoutBtn = document.getElementById('logoutBtn');
-	logoutBtn.addEventListener('click', logoutSend, f);
-	logoutBtn.style.background=backgroundColorPurp;
 	
-	tradesFlatBusterBtn = document.getElementById('tradesFlatBusterBtn');
-	tradesFlatBusterBtn.addEventListener('click', tradesFlatBusterBtnFunc, f);
-	tradesFlatBusterBtn.style.background=backgroundColorYellow;
+	insertCoinBtn = document.getElementById('insertCoinBtn');
+	insertCoinBtn.addEventListener('click', insertCoinBtnFunc, f);
+	insertCoinBtn.style.fontSize="1.0em";
+	insertCoinBtn.style.background=backgroundColorInsertCoin;
+	insertCoinBtn.style.color="#ffffff";
 	
 	
+	sendCoinBtn = document.getElementById('sendCoinBtn');
+	sendCoinBtn.addEventListener('click', sendCoinBtnFunc, f);
+	sendCoinBtn.style.fontSize="1.0em";
+	sendCoinBtn.style.background=backgroundColorSendCoin;
+	sendCoinBtn.style.color="#ffffff";
+	
+	
+	chooseIdBtn = document.getElementById('chooseIdBtn');
+	chooseIdBtn.addEventListener('click', chooseIdBtnFunc, f);
+	chooseIdBtn.style.fontSize="1.0em";
+	chooseIdBtn.style.background=backgroundColorChooseId;
+	chooseIdBtn.style.color="#ffffff";
+	
+	
+	
+	socketLanguageRoadmapBtn = document.getElementById('socketLanguageRoadmapBtn');
+	socketLanguageRoadmapBtn.addEventListener('click', socketLanguageRoadmapBtnFunc, f);
+	socketLanguageRoadmapBtn.style.fontSize="1.0em";
+	socketLanguageRoadmapBtn.style.background=backgroundColorSLS;
+	socketLanguageRoadmapBtn.style.color="#ffffff";
+	
+	
+	supportBtn = document.getElementById('supportBtn');
+	supportBtn.addEventListener('click', supportBtnFunc, f);
+	supportBtn.style.fontSize="1.0em";
+	supportBtn.style.background=backgroundColorSupport;
+	supportBtn.style.color="#ffffff";
+
+
+
+
+
 	scriptEditBtn = document.getElementById('scriptEditBtn');
 	scriptEditBtn.addEventListener('click', scriptEditSendFunc, f);
 	scriptEditBtn.style.background=backgroundColorOrange;
-	
 	
 	scriptCheckBtn = document.getElementById('scriptCheckBtn');
 	scriptCheckBtn.addEventListener('click', scriptCheckSendFunc, f);
 	scriptCheckBtn.style.background=backgroundColorOrange;
 	
-	
 	scriptSaveBtn = document.getElementById('scriptSaveBtn');
 	scriptSaveBtn.addEventListener('click', scriptSaveSendFunc, f);
 	scriptSaveBtn.style.background=backgroundColorOrange;
-	
 	
 	scriptRunBtn = document.getElementById('scriptRunBtn');
 	scriptRunBtn.addEventListener('click', scriptRunSendFunc, f);
 	scriptRunBtn.style.background=backgroundColorOrange;
 	
-	
-	
 	scriptSetupBtn = document.getElementById('scriptSetupBtn');
 	scriptSetupBtn.addEventListener('click', scriptSetupSendFunc, f);
 	scriptSetupBtn.style.background=backgroundColorOrange;
-	
 	
 	scriptClearBtn = document.getElementById('scriptClearBtn');
 	scriptClearBtn.addEventListener('click', scriptClearSendFunc, f);
 	scriptClearBtn.style.background=backgroundColorOrange;
 	
-	
 	scriptCopyBtn = document.getElementById('scriptCopyBtn');
 	scriptCopyBtn.addEventListener('click', scriptCopySendFunc, f);
 	scriptCopyBtn.style.background=backgroundColorOrange;
 	
-	
-	
-	scriptNewBtn = document.getElementById('scriptNewBtn');
-	scriptNewBtn.addEventListener('click', scriptNewSendFunc, f);
-	scriptNewBtn.style.background=backgroundColorOrange;
-	
-	
+	scriptFindBtn = document.getElementById('scriptFindBtn');
+	scriptFindBtn.addEventListener('click', scriptFindSendFunc, f);
+	scriptFindBtn.style.background=backgroundColorOrange;
 	
 	scriptLoadBtn = document.getElementById('scriptLoadBtn');
 	scriptLoadBtn.addEventListener('click', scriptLoadSendFunc, f);
 	scriptLoadBtn.style.background=backgroundColorOrange;
 	
-	
-	scriptChatBtn = document.getElementById('scriptChatBtn');
-	scriptChatBtn.addEventListener('click', scriptChatSendFunc, f);
-	scriptChatBtn.style.background=backgroundColorOrange;
-	
-	
+	scriptBlankBtn = document.getElementById('scriptBlankBtn');
+	scriptBlankBtn.addEventListener('click', scriptBlankSendFunc, f);
+	scriptBlankBtn.style.background=backgroundColorOrange;
 	
 	scriptSellBtn = document.getElementById('scriptSellBtn');
 	scriptSellBtn.addEventListener('click', scriptSellSendFunc, f);
 	scriptSellBtn.style.background=backgroundColorOrange;
-	
-	
 	
 	scriptBuyBtn = document.getElementById('scriptBuyBtn');
 	scriptBuyBtn.addEventListener('click', scriptBuySendFunc, f);
 	scriptBuyBtn.style.background=backgroundColorOrange;
 	
 	
-	
-	scriptScanBtn = document.getElementById('scriptScanBtn');
-	scriptScanBtn.addEventListener('click', scriptScanSendFunc, f);
-	scriptScanBtn.style.background=backgroundColorOrange;
-	
-	
-	
 	scriptHideBtn = document.getElementById('scriptHideBtn');
 	scriptHideBtn.addEventListener('click', scriptHideSendFunc, f);
 	scriptHideBtn.style.background=backgroundColorOrange;
-	
 	
 	scriptHelpBtn = document.getElementById('scriptHelpBtn');
 	scriptHelpBtn.addEventListener('click', scriptHelpSendFunc, f);
 	scriptHelpBtn.style.background=backgroundColorOrange;
 	
-	
-	depositBalanceBtn = document.getElementById('depositBalanceBtn');
-	depositBalanceBtn.addEventListener('click', depositBalanceBtnFunc, f);
-	depositBalanceBtn.style.background=backgroundColorPurp;
-	
-	depositQiwiBtn = document.getElementById('depositQiwiBtn');
-	depositQiwiBtn.addEventListener('click', depositQiwiBtnFunc, f);
-	depositQiwiBtn.style.background=backgroundColorPurp;
-	
-
-	nicknameInput = document.getElementById('nicknameInput');
-	setNicknameBtn = document.getElementById('setNicknameBtn');
-	setNicknameBtn.addEventListener('click', setNicknameSend, f);
-	setNicknameBtn.style.background=backgroundColorPurp;
 }
 
 
@@ -335,60 +395,78 @@ function selectMenuBtns (a) {
 	}
 			
 	homeBtn.disabled=a0;
-	scriptEditorBtn.disabled=a1;
-	devicesBtn.disabled=a2;
-	gamesBtn.disabled=a3;
-	messagesBtn.disabled=a4;
-	tradesBtn.disabled=a5;
+	scriptBtn.disabled=a1;
+	roomBtn.disabled=a2;
+	gameBtn.disabled=a3;
+	chatBtn.disabled=a4;
+	tradeBtn.disabled=a5;
 	return
 }
-
-
-function depositBalanceBtnFunc () {
-	selectMenuBtns(0);
-	selectPage(t, t, f, t, t, t, t, t);
-	return;
-}
-
-function depositQiwiBtnFunc () {
-	selectMenuBtns(0);
-	selectPage(t, t, f, t, t, t, t, t);
-	return;
-}
-
-
 function homeBtnFunc () {
 	selectMenuBtns(0);
 	selectPage(t, t, f, t, t, t, t, t);
 	return;
 }
-function scriptEditorBtnFunc () {
+function scriptBtnFunc () {
 	selectMenuBtns(1);
 	selectPage(t, t, t, f, t, t, t, t);
 	return;
 }
-function devicesBtnFunc () {
+function roomBtnFunc () {
 	selectMenuBtns(2);
 	selectPage(t, t, t, t, f, t, t, t);
 	return;
 }
-function gamesBtnFunc () {
+function gameBtnFunc () {
 	selectMenuBtns(3);
 	selectPage(t, t, t, t, t, f, t, t);
 	return;
 }
-function messagesBtnFunc () {
+function chatBtnFunc () {
 	selectMenuBtns(4);
 	selectPage(t, t, t, t, t, t, f, t);
 	return;
 }
-function tradesBtnFunc () {
+function tradeBtnFunc () {
 	selectMenuBtns(5);
 	selectPage(t, t, t, t, t, t, t, f);
 	return;
 }
-function socketLanguageAboutBtnFunc () {
-    viewwin = window.open('Socket Language.Space_Roadmap.gif','viewwin', 'width=600,height=300'); 
+function socketLanguageRoadmapBtnFunc () {
+    window.open('Socket Language.Space_Roadmap.gif','viewwin', 'width=600, height=300'); 
+	return;
+}
+function supportBtnFunc () {
+	alert("support"); 
+	return;
+}
+function getNewAccessKeyBtnFunc () {
+	if (checkCaptcha()) {
+		//send
+		alert("Captcha OK");
+		captchareset();
+	}
+	return;
+}
+function getNewAccessKeyCopyBtnFunc () {
+	copyToClipboard(getNewAccessKeyDiv.innerHTML);
+	
+	return;
+}
+function getNewPublicKeyCopyBtnFunc () {
+	copyToClipboard(getNewPublicKeyDiv.innerHTML);
+	return;
+}
+function insertCoinBtnFunc () {
+	alert("Insert Coin");
+	return;
+}
+function sendCoinBtnFunc () {
+	alert("Send Coin");
+	return;
+}
+function chooseIdBtnFunc () {
+	alert("Choose id");
 	return;
 }
 
@@ -405,89 +483,13 @@ function timeConverter(UNIX_timestamp){
   return time;
 }
 
-
-function tradesFlatBusterBtnFunc () {
-	send("tF");
-	//selectMenuBtns(5);
-	//selectPage(t, t, t, t, t, t, t, f);
-	var x = new Date();
-	var currentTimeZoneOffsetInHours = x.getTimezoneOffset() / 60;
-	//alert(currentTimeZoneOffsetInHours);	//	UTC
-	//alert(timeConverter(1596400017));
-	
-	
-	for(x=0;x<coin.length;x++){
-		if (!document.getElementById(coin[x]+market[0])) {
-			addRow(coin[x], market[0]);
-		} else {alert('Уже существует' + coin[x])};
-	}
-	
-	//addRow('DOGE', 'BTC');
-	//var newDiv = document.createElement("div");
-	//var yyy = document.getElementById('ttt')
-	//ttt.innerHTML = '4444444444';
-	//if (document.getElementById('DOGEBTo')) {alert('Есть');} else {alert('Нету');}
-	return;
-}
-
-
-function addRow (moneta, rinok) {
-	var tbody = document.getElementById('tableTrade').getElementsByTagName("TBODY")[0];
-    var row = document.createElement("TR")
-    var td1 = document.createElement("TD")
-    td1.appendChild(document.createTextNode(moneta))
-    td1.style.background = backgroundColorYellow;
-    var td2 = document.createElement("TD")
-    td2.appendChild (document.createTextNode(rinok))
-    td2.style.background = backgroundColorYellow;
-    var td3 = document.createElement("TD")
-	var newDiv = document.createElement("div");
-	newDiv.id = moneta + rinok + 'buytime';
-    newDiv.appendChild (document.createTextNode("-"))
-	td3.appendChild (newDiv);
-    td3.style.background = backgroundColorGreen;
-    var td4 = document.createElement("TD")
-	newDiv = document.createElement("div");
-	newDiv.id = moneta + rinok + 'buyprice';
-    newDiv.appendChild (document.createTextNode("-"))
-	td4.appendChild (newDiv);
-    td4.style.background = backgroundColorGreen;
-    var td5 = document.createElement("TD")
-	newDiv = document.createElement("div");
-	newDiv.id = moneta + rinok + 'selltime';
-    newDiv.appendChild (document.createTextNode("-"))
-	td5.appendChild (newDiv);
-    td5.style.background = backgroundColorRed;
-    var td6 = document.createElement("TD")
-	newDiv = document.createElement("div");
-	newDiv.id = moneta + rinok + 'sellprice';
-    newDiv.appendChild (document.createTextNode("-"))
-	td6.appendChild (newDiv);
-    td6.style.background = backgroundColorRed;
-    row.appendChild(td1);
-    row.appendChild(td2);
-    row.appendChild(td3);
-    row.appendChild(td4);
-    row.appendChild(td5);
-    row.appendChild(td6);
-	row.hidden = t;
-	row.id = moneta + rinok + 'tr';
-    tbody.appendChild(row);
-	return;
-}
-
-
-
-
 function refresh(){
 	send("\u0000");
-	sendNew("\u0000");
 }
 
 function coockieDelete () {
 	localStorage.removeItem('hashSession');
 }
-
 function coockieSet (hashStr) {
 	localStorage.setItem('hashSession', hashStr);
 }
@@ -495,62 +497,253 @@ function coockieGet () {
 	return localStorage.getItem('hashSession');
 }
 function captchareset (){
-	passMsg.value.value = "";
 	grecaptcha.reset();
 }
 //*******************************
-function lcError () {
-	divError.innerHTML = 're-CAPTCHA error';
-	errorFadeOutStart(f, '.');
-}
-function liError () {
-	divError.innerHTML = 'Login / Password incorrect';
-	errorFadeOutStart(f, '.');
-}
-function lpError () {
-	divError.innerHTML = 'Password format incorrect';
-	errorFadeOutStart(f, '.');
-}
-function lmailError () {
-	divError.innerHTML = 'Login format incorrect';
-	errorFadeOutStart(f, '.');
-}
-function lrError () {
-	divError.innerHTML = 'Check e-mail';
-	errorFadeOutStart(t, '.');
-}
-function lgError () {
-	divError.innerHTML = 'Guest enter activate';
-	errorFadeOutStart(t, '.');
-}
-function lsError () {
-	divError.innerHTML = 'Code sent to e-mail';
-	errorFadeOutStart(t, '.');
-}
-function lmailCodeError () {
-	divError.innerHTML = 'Code incorrect';
-	errorFadeOutStart(f, '.');
-}
-function nicknameError () {
-	divError.innerHTML = 'Nickname error';
-	errorFadeOutStart(f, '.');
-}
-function nicknameWasChange () {
-	divError.innerHTML = 'Nickname was changed';
-	errorFadeOutStart(t, '.');
-}
-
-
-function servicesError () {
-	divError.innerHTML = 'Service busy. Try again latter';
-	errorFadeOutStart(f, '.');
+function errorCaptcha () {
+	//divError.innerHTML = 're-CAPTCHA error';
+	alert('re-CAPTCHA error');
 }
 //*******************************
+function scriptEditSendFunc(){
+	alert("Script Edit Btn");
+}
+function scriptCopySendFunc(){
+	alert("Script Copy Btn");
+}
+function scriptSaveSendFunc(){
+	alert("Script Save Btn");
+}
+function scriptRunSendFunc(){
+	alert("Script Run Btn");
+}
+function scriptSetupSendFunc(){
+	alert("Script Setup Btn");
+}
+function scriptClearSendFunc(){
+	alert("Script Clear Btn");
+}
+function scriptCheckSendFunc(){
+	scriptTextArea = document.getElementById("scriptTextArea");
+	send("\u0001" + scriptTextArea.value);
+}
+function scriptFindSendFunc(){
+	alert("ScriptFindBtn");
+}
+function scriptLoadSendFunc(){
+	alert("Script Load Btn");
+}
+function scriptBlankSendFunc(){
+	alert("ScriptBlankBtn");
+}
+function scriptSellSendFunc(){
+	alert("Script Sell Btn");
+}
+function scriptBuySendFunc(){
+	alert("Script Buy Btn");
+}
+function scriptHideSendFunc(){
+	alert("Script Hide Btn");
+}
+function scriptHelpSendFunc(){
+	alert("Script Help Btn");
+}
+function connection (){
+	if (lostConnect == 1){
+		if(socket = new WebSocket(address_list)) {} else {return;}
+		socket.onopen = function () {
+			lostConnect = 0;
+			send("\u0000");
+			//if (coockieCheck = coockieGet()) {
+			//	send("l" + coockieCheck);
+			//}
+			socketStatusImg.innerHTML = connectionOnlineInnerHTMLimg;
+			socketStatusText.innerHTML = connectionOnlineInnerHTMLtext;
+		};
+		socket.onclose = function(e) {
+			socket.close();
+			lostConnect = 1;
+			socketStatusImg.innerHTML = connectionOfflineInnerHTMLimg;
+			socketStatusText.innerHTML = connectionOfflineInnerHTMLtext;
+		};
+		socket.onerror = function(err) {
+			socket.close();
+			lostConnect = 1;
+			socketStatusImg.innerHTML = connectionOfflineInnerHTMLimg;
+			socketStatusText.innerHTML = connectionOfflineInnerHTMLtext;
+		};
+		socket.onmessage = function (e) {
+			var t = new Date();
+			var SR = e.data;
+			var SRL = SR.length;
+			var resp = SR.split("\u0000");
+			var respL = resp.length;
+			var errorMsg = "";
+			if (SR[0] == "\u0000"){	//	Пинг от сервера
+				//usersOnline.innerHTML = SR.slice(1);
+			}
+			if (SR[0] == "L") {
+				if (SR[1] == "\u0000"){	//	SCRIPT ERRORS LOG START	****************************************************
+					switch (SR[2]) {
+						case "\u0000":
+							errorMsg = "Check script is Ok\n";
+							break;
+						case "\u0001":
+							errorMsg = "Unknown error\n";
+							break;
+						case "\u0002":
+							errorMsg = "Need correct var's type\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0003":
+							errorMsg = "First word of the command must be non-digital\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0004":
+							errorMsg = "Label is already declared\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0005":
+							errorMsg = "First parameter must be var\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0006":
+							errorMsg = "There must be a named var\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0007":
+							errorMsg = "There must be a filename var\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0008":
+							errorMsg = "There must be a string or named var\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0009":
+							errorMsg = "There must be a non-var parameter\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0010":
+							errorMsg = "Only named var for `now` and uint var for `to` in Unix-time 13 digit\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0011":
+							errorMsg = "Only named var, uint, byte\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0012":
+							errorMsg = "Need parameter\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0013":
+							errorMsg = "Parameter must be a function name\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0014":
+							errorMsg = "Zero parameter's length\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0015":
+							errorMsg = "Pointer type only for MOV command between two named vars\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0016":
+							errorMsg = "Command type is only uint, time or byte\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0017":
+							errorMsg = "Type is only byte, uint, float, counter or time\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0018":
+							errorMsg = "Need 4th parameter\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0019":
+							errorMsg = "String-type is only for ADD and MOV commands\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0020":
+							errorMsg = "File open error\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0021":
+							errorMsg = "Zero sector write fail\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0022":
+							errorMsg = "File create error\nCommand " + SR.slice(3) + "\n";
+							break;
+						case "\u0023":
+							errorMsg = "File read error\nCommand" + SR.slice(3) + "\n";
+							break;
+						case "\u0024":
+							errorMsg = "Get file's size error\nCommand" + SR.slice(3) + "\n";
+							break;
+						case "\u0025":
+							errorMsg = "String var must be a 255 byte length max\nCommand" + SR.slice(3) + "\n";
+							break;
+						case "\u0026":
+							errorMsg = "Variable type not defined\nCommand" + SR.slice(3) + "\n";
+							break;
+						case "\u0027":
+							errorMsg = "Not a byte-var\nCommand" + SR.slice(3) + "\n";
+							break;
+						case "\u0028":
+							errorMsg = "First word of command not must be a true or false\nCommand" + SR.slice(3) + "\n";
+							break;
+						case "\u0029":
+							errorMsg = "Need command's type uint, time, counter or byte\nCommand" + SR.slice(3) + "\n";
+							break;
+						case "\u0030":
+							errorMsg = "Bad parameter\nCommand" + SR.slice(3) + "\n";
+							break;
+						case "\u0031":
+							errorMsg = "Need parameter string's name for the jump\nCommand" + SR.slice(3) + "\n";
+							break;
+						case "\u0032":
+							errorMsg = "Parameter must be a type of var\nCommand" + SR.slice(3) + "\n";
+							break;
+						case "\u0033":
+							errorMsg = "Division by zero\nCommand" + SR.slice(3) + "\n";
+							break;
+							
+						default:
+					}
+					scriptTerminalTextArea.innerHTML = errorMsg;
+				}
+			}
+		}
+	}
+}
+function send(msgToSend) {
+	socket.send(msgToSend);
+}
+function selectPage(b0, b1, b2, b3, b4, b5, b6, b7) {
+	if (!b0 || !b1 || !b2) {
+		//if (_ = coockieGet()) {
+		//	b0 = t;
+		//	b1 = t;
+		//	b2 = f;
+		//} else {
+		//	b0 = f;
+		//	b1 = f;
+		//	b2 = t;
+		//}
+		
+		b0 = f;
+		b2 = f;
+	}
+	hiddenCaptcha.hidden = b0;
+	//formLogin.hidden = b1;
+	formHome.hidden = b2;
+	formScript.hidden = b3;
+	formRoom.hidden = b4;
+	formGame.hidden = b5;
+	formChat.hidden = b6;
+	formTrade.hidden = b7;
+	return;
+}
+function checkCaptcha () {
+	captchaMsg = document.getElementById("g-recaptcha-response");
+	if (captchaMsg.value.length < 300) {
+		errorCaptcha();
+		captchareset();
+		return f;
+	}
+	return t;
+}
+/*CAPTCHA
+if (!checkLoginFields(t, t, t, f, f)) {return;}
+	captchaMsg = document.getElementById("g-recaptcha-response");
+	send("l" + captchaMsg.value + "\u0000" + loginMsg.value + "\u0000" + passMsg.value);
+	captchareset();
+CAPTCHA
 function checkLoginFields (captchaFlag, loginFlag, passFlag, mailCodeFlag, checkBoxTermFlag) {
 	resultFlag = t;
 	captchaMsg = document.getElementById("g-recaptcha-response");
 	if (captchaFlag && captchaMsg.value.length < 300) {
-		lcError();
+		errorCaptcha();
 		resultFlag = f;
 	}
 	if (loginFlag && loginMsg.value.length < 5 && loginMsg.value != "1") {
@@ -571,432 +764,15 @@ function checkLoginFields (captchaFlag, loginFlag, passFlag, mailCodeFlag, check
 	if (checkBoxTermFlag && !checkBoxTerm.checked) {
 		//checkBoxTerm.style.background = '#FBC3C3';
 		divError.innerHTML = 'Select checkbox befor registration';
-		errorFadeOutStart(f, '.');
 		resultFlag = f;
 	}
 	return resultFlag;
-}
-//*******************************
-function loginSend(){
-	mailCodeHidden.hidden = t;
-	checkBoxTermHidden.hidden = t;
-	if (!checkLoginFields(t, t, t, f, f)) {return;}
-	captchaMsg = document.getElementById("g-recaptcha-response");
-	send("l" + captchaMsg.value + "\u0000" + loginMsg.value + "\u0000" + passMsg.value);
-	captchareset();
-	passMsg.value = '';
-}
-
-function registrationSend(){
-	mailCodeHidden.hidden = f;
-	checkBoxTermHidden.hidden = f;
-	if (!checkLoginFields(t, t, t, f, t)) {return;}
-	captchaMsg = document.getElementById("g-recaptcha-response");
-	send("l" + captchaMsg.value + "\u0000" + loginMsg.value + "\u0000" + passMsg.value + "\u0000" + mailCodeMsg.value);
-	captchareset();
-	if (!checkLoginFields(f, f, f, t, f)) {return;}
-}
-
-function guestSend(){
-	mailCodeHidden.hidden = t;
-	checkBoxTermHidden.hidden = f;
-	if (!checkLoginFields(t, f, f, f, t)) {return;}
-	captchaMsg = document.getElementById("g-recaptcha-response");
-	send("l" + captchaMsg.value + "\u0000");
-	captchareset();
-}
-//*******************************
-function logoutSend(){
-	send("l");
-	errorFadeOutStart(t, '*');
-}
-
-
-function scriptEditSendFunc(){
-	alert("Script Edit Btn");
-	//send("l");
-	//errorFadeOutStart(t, '*');
-}
-function scriptCopySendFunc(){
-	alert("Script Copy Btn");
-	//send("l");
-	//errorFadeOutStart(t, '*');
-}
-function scriptSaveSendFunc(){
-	alert("Script Save Btn");
-	//send("l");
-	//errorFadeOutStart(t, '*');
-}
-function scriptRunSendFunc(){
-	alert("Script Run Btn");
-	//send("l");
-	//errorFadeOutStart(t, '*');
-}
-function scriptSetupSendFunc(){
-	alert("Script Setup Btn");
-	//send("l");
-	//errorFadeOutStart(t, '*');
-}
-function scriptClearSendFunc(){
-	alert("Script Clear Btn");
-	//send("l");
-	//errorFadeOutStart(t, '*');
-}
-function scriptCheckSendFunc(){
-	scriptTextArea = document.getElementById("scriptTextArea");
-	//alert("Script Check Btn");
-	sendNew("\u0001" + scriptTextArea.value);
-	//errorFadeOutStart(t, '*');
-}
-function scriptNewSendFunc(){
-	alert("Script New Btn");
-	//send("l");
-	//errorFadeOutStart(t, '*');
-}
-function scriptLoadSendFunc(){
-	alert("Script Load Btn");
-	//send("l");
-	//errorFadeOutStart(t, '*');
-}
-function scriptChatSendFunc(){
-	alert("Script Chat Btn");
-	//send("l");
-	//errorFadeOutStart(t, '*');
-}
-function scriptSellSendFunc(){
-	alert("Script Sell Btn");
-	//send("l");
-	//errorFadeOutStart(t, '*');
-}
-function scriptBuySendFunc(){
-	alert("Script Buy Btn");
-	//send("l");
-	//errorFadeOutStart(t, '*');
-}
-function scriptScanSendFunc(){
-	alert("Script Scan Btn");
-	//send("l");
-	//errorFadeOutStart(t, '*');
-}
-function scriptHideSendFunc(){
-	alert("Script Hide Btn");
-	//send("l");
-	//errorFadeOutStart(t, '*');
-}
-function scriptHelpSendFunc(){
-	alert("Script Help Btn");
-	//send("l");
-	//errorFadeOutStart(t, '*');
-}
-
 	
 	
 	
-function setNicknameSend(){
-	if (nicknameInput.value.length > 19 || nicknameInput.value.length < 1) {return;}
-	//send("n" + nicknameInput.value);
-	send("tB");
-	errorFadeOutStart(t, '*');
-}
-function geoFailure() {
 	
-}
-
-function geoGo() {
-	navigator.geolocation.getCurrentPosition(geoSuccess, geoFailure, 
-			{enableHighAccuracy: t,
-			 timeout: 1000,
-			 maximumAge: 0});
-			 
-			 
-			 
-}
-
-function connectionNew (){
-	if (lostConnectNew == 1){
-		if(socketNew = new WebSocket(address_listNew)) {} else {return;}
-		socketNew.onopen = function () {
-			lostConnectNew = 0;
-			sendNew("\u0000");
-			//if (coockieCheck = coockieGet()) {
-			//	send("l" + coockieCheck);
-			//}
-			socketStatusImgNew.innerHTML = '<img src="ConnectionG.gif" title="online">';
-		};
-		socketNew.onclose = function(e) {
-			socketNew.close();
-			lostConnectNew = 1;
-			socketStatusImgNew.innerHTML = '<img src="ConnectionR.gif" title="offline">';
-		};
-		socketNew.onerror = function(err) {
-			socketNew.close();
-			lostConnectNew = 1;
-			socketStatusImgNew.innerHTML = '<img src="ConnectionR.gif" title="offline">';
-		};
-		socketNew.onmessage = function (e) {
-			var t = new Date();
-			var SR = e.data;
-			var SRL = SR.length;
-			var resp = SR.split("\u0000");
-			var respL = resp.length;
-			
-			if (SR[0]=="\u0000"){	//	Подтверждение от сервера, что web-клиент подключен
-				//usersOnline.innerHTML = SR.slice(1);
-			}
-		}
-	}
-}
-function connection (){
-	if (lostConnect == 1){
-		//selectPage(t, t, f, t, t, t, t, t);
-		if(socket = new WebSocket(address_list)) {} else {return;}
-		socket.onopen = function () {
-			lostConnect = 0;
-			send("\u0001\u0009");
-			if (coockieCheck = coockieGet()) {
-				send("l" + coockieCheck);
-			}
-			socketStatusImg.innerHTML = '<img src="ConnectionG.gif" title="online">';
-			socketStatusText.innerHTML = "Connected";
-			errorFadeOutStart(t, '*');
-			if (flags == 1) {send("tF");}
-		};
-		socket.onclose = function(e) {
-			socket.close();
-			lostConnect = 1;
-			if (e.wasClean) {
-				socketStatusText.innerHTML = "Connection close";
-			} else {
-				socketStatusText.innerHTML = "Connection lost";
-			}
-			socketStatusText.innerHTML = "Connection error: " + e.code + " \:/ " + e.reason;
-			socketStatusImg.innerHTML = '<img src="ConnectionR.gif" title="offline">';
-			socketStatusText.innerHTML = "Disonnected";
-			usersOnline.innerHTML = "0";
-		};
-		socket.onerror = function(err) {
-			socket.close();	//	?
-			lostConnect = 1;
-			//socketStatusText.innerHTML = err.message;
-			socketStatusImg.innerHTML = '<img src="ConnectionR.gif" title="offline">';
-		};
-
-		socket.onmessage = function (e) {
-			var t = new Date();
-			var SR = e.data;
-			var SRL = SR.length;
-			var resp = SR.split("\u0000");
-			var respL = resp.length;
-			
-			if (SR[0]=="9"){	//	Подтверждение от сервера, что web-клиент подключен
-				usersOnline.innerHTML = SR.slice(1);
-			}
-			
-			
-			if (SR[0]=="n"){	//	Ответ по смене ника
-				if (SRL == 1) {
-					nicknameWasChange();
-				} else {
-					switch (SR[1]) {
-						case "-":
-							nicknameError();
-							break;
-						default:
-					}
-				}
-				return;
-			}
-			
-			
-			if (SR[0]=="t"){	//	Ответ от Trade
-				if (SR[1] == 'u') {
-					for(x=1;x<respL;x+=6){
-						//if (document.getElementById(resp[x]+resp[x+1])) {
-							//alert(resp[x]);
-							document.getElementById(resp[x] + resp[x+1] + 'buytime').innerHTML = timeConverter(resp[3]);
-							document.getElementById(resp[x] + resp[x+1] + 'buyprice').innerHTML = resp[4];
-							document.getElementById(resp[x] + resp[x+1] + 'selltime').innerHTML = timeConverter(resp[5]);
-							document.getElementById(resp[x] + resp[x+1] + 'sellprice').innerHTML = resp[6];
-							document.getElementById(resp[x] + resp[x+1] + 'tr').hidden = f;
-						//}
-					}
-					return;
-				}
-				if (respL == 4) {
-					a = resp[1] + resp[2] + 'tr';
-					
-					if (SR[1] == 'b'){
-						tTime = 'buytime';
-						tPrice = 'buyprice';
-					}
-					if (SR[1] == 's'){
-						tTime = 'selltime';
-						tPrice = 'sellprice';
-					}
-					document.getElementById(resp[0].slice(2) + resp[1] + tTime).innerHTML = timeConverter(resp[2]);
-					document.getElementById(resp[0].slice(2) + resp[1] + tPrice).innerHTML = resp[3];
-					document.getElementById(a).hidden = f;
-				}
-				
-				if (SR[1] == 'h') {
-					document.getElementById(resp[0].slice(2) + resp[1] + 'tr').hidden = t;
-				}
-				
-				
-				
-				//"tb" + "DOGE" + uu + "BTC" + uu + "1596400017" + uu + "0.45342312"
-				//"ts" + "DOGE" + uu + "BTC" + uu + "1596400017" + uu + "0.45342312"
-				//"tu" + uu + "DOGE" + uu + "BTC" + uu + "1596400017" + uu + "0.45342312" + uu + "1596400017" + uu + "0.45342312"
-				//"th" + "DOGE" + uu + "BTC"
-				return;
-			}
-			if (SR[0]=="f"){	//	Ответ по установке флага
-				if (SRL == 2) {
-					flags = SR[1];
-					//alert(SR[1]);
-					if (SR[1] == "0") {
-						tradesFlatBusterBtn.value = tradeOFF;
-					}
-					if (SR[1] == "1") {
-						tradesFlatBusterBtn.value = tradeON;
-					}
-				}
-				return;
-			}
-			// Login / Logout / Coockie check
-			if (SR[0]=="l"){
-				if (SRL == 1) {
-					coockieDelete();
-					selectPage(t, t, f, t, t, t, t, t);
-				} else {
-					switch (SR[0] + SR[1]) {
-						case "ll":
-							yourEmail.innerHTML = resp[0].slice(2)
-							yourID.innerHTML = coockieCheck.slice(32)
-							yourBalance.innerHTML = '1000';
-							nicknameInput.value = resp[1];
-							return;
-						case "lc":
-							lcError();
-							break;
-						case "li":
-							liError();
-							break;
-						case "lp":
-							lpError();
-							break;
-						case "l@":
-							lmailError();
-							break;
-						case "lr":
-							lrError();
-							break;
-						case "lg":
-							lgError();
-							break;
-						case "ls":
-							lsError();
-							break;
-						case "lm":
-							lmailCodeError();
-							break;
-						case "lb":
-							servicesError();
-							break;
-						default:
-							coockieSet(resp[0].slice(1));	//	Все символы от 1-го и до конца строки
-							yourEmail.innerHTML = resp[1] + " | " + "id " + resp[0].slice(33) + " | " + "1000" + " Coins";
-							nicknameInput.value = resp[2];
-							errorFadeOutStart(t, '*');
-							selectPage(t, t, f, t, t, t, t, t);
-					}
-				}
-				connection();
-			}
-			// Get statistic (users online etc)
-			if (SR[0]=="s"){
-				usersOnline.innerHTML = SR.slice(1);
-				return
-			}
-		};
-	} else {
-	}
-}
-
-function sendNew(msgToSend) {
-	socketNew.send(msgToSend);
-}
-function send(msgToSend) {
-	socket.send(msgToSend);
-}
-function sendNew(msgToSend) {
-	socketNew.send(msgToSend);
-}
-
-
-function errorFadeOut () {
-	divError.innerHTML += fadeSymbolType;
-	if (divFadeOutGo[0] < 247) {divFadeOutGo[0]+=8};
-	if (divFadeOutGo[1] < 247) {divFadeOutGo[1]+=8};
-	if (divFadeOutGo[2] < 247) {divFadeOutGo[2]+=8};
+	passMsg.value.value = "";
 	
-	divError.style.color = "rgb(" + divFadeOutGo[0] + ", " + divFadeOutGo[1] + ", " + divFadeOutGo[2] + ")";
 	
-	if (divFadeOutGo[0] > 247 && divFadeOutGo[1] > 247 && divFadeOutGo[2] > 247) {
-		divError.innerHTML = '';
-		clearTimeout(timerErrorFadeOutID);
-		divErrorFadeOutFlag = f;
-		turnBtnFadeOut();
-	}
-}
-function errorFadeOutStart (flag, marker) {
-	fadeSymbolType = marker;
-	if (divErrorFadeOutFlag) {clearTimeout(timerErrorFadeOutID);}
-	divErrorFadeOutFlag = t;
-	turnBtnFadeOut();
-	if (flag) {
-		divFadeOutGo[0] = divGreenFadeOutRGB[0];
-		divFadeOutGo[1] = divGreenFadeOutRGB[1];
-		divFadeOutGo[2] = divGreenFadeOutRGB[2];
-	} else {
-		divFadeOutGo[0] = divRedFadeOutRGB[0];
-		divFadeOutGo[1] = divRedFadeOutRGB[1];
-		divFadeOutGo[2] = divRedFadeOutRGB[2];
-	}
-	timerErrorFadeOutID = setInterval(errorFadeOut, 130);
-}
-function turnBtnFadeOut () {
-	if (divErrorFadeOutFlag) {
-		loginBtn.disabled=t;
-		registrationBtn.disabled=t;
-		setNicknameBtn.disabled=t;
-	} else {
-		loginBtn.disabled=f;
-		registrationBtn.disabled=f;
-		setNicknameBtn.disabled=f;
-	}
-}
-
-function selectPage(b0, b1, b2, b3, b4, b5, b6, b7) {
-	if (!b0 || !b1 || !b2) {
-		if (_ = coockieGet()) {
-			b0 = t;
-			b1 = t;
-			b2 = f;
-		} else {
-			b0 = f;
-			b1 = f;
-			b2 = t;
-		}
-	}
-		
-	hiddenCaptcha.hidden = b0;
-	formLogin.hidden = b1;
-	formHome.hidden = b2;
-	formScriptEditor.hidden = b3;
-	formDevices.hidden = b4;
-	formGames.hidden = b5;
-	formMessages.hidden = b6;
-	formTrades.hidden = b7;
-	return;
-}
+	
+}*/
